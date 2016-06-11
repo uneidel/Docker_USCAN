@@ -1,7 +1,7 @@
 # Docker Image for ScanImage
 
 ## Components
-based on ubuntu:16.04
+based on ubuntu:16.04    
 S6-init     
 Samsung Unified Driver            
 scanimage         
