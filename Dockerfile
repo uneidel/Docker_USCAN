@@ -7,7 +7,9 @@ MAINTAINER uneidel@octonion.de
 RUN bash -c 'echo "deb http://www.bchemnet.com/suldr/ debian extra" >> /etc/apt/sources.list'
 RUN apt-get update && apt-get -y dist-upgrade 
 RUN apt-get install -y whois  sane tesseract-ocr tesseract-ocr-deu unpaper imagemagick gpm libxml2
-RUN apt-get install -y --force-yes suld-driver2-1.00.35
+ADD http://downloadcenter.samsung.com/content/DR/201512/20151210091120064/uld_v1.00.37_00.99.tar.gz /install/uld.tar.gz
+RUN tar zxvf /install/uld.tar.gz
+RUN /uld/noarch/package_install.sh scanner-meta
 COPY scripts/ /srv/scripts 
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.17.1.2/s6-overlay-amd64.tar.gz /tmp/s6-overlay.tar.gz
