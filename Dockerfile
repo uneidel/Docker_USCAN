@@ -7,6 +7,10 @@ MAINTAINER uneidel@octonion.de
 RUN bash -c 'echo "deb http://www.bchemnet.com/suldr/ debian extra" >> /etc/apt/sources.list'
 RUN apt-get update && apt-get -y dist-upgrade 
 RUN apt-get install -y whois  sane tesseract-ocr tesseract-ocr-deu unpaper imagemagick gpm libxml2
+RUN apt-get install -y nodejs npm
+# Install app dependencies
+COPY app /var/www/
+RUN cd /var/www/app; npm install --production
 ADD http://downloadcenter.samsung.com/content/DR/201512/20151210091120064/uld_v1.00.37_00.99.tar.gz /install/uld.tar.gz
 RUN tar zxvf /install/uld.tar.gz
 RUN /uld/noarch/package_install.sh scanner-meta
