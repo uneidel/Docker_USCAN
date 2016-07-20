@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 // Database
 var routes = require('./routes/index');
 var scanner = require('./routes/scanner');
+var documents = require('./routes/documents');
 var app = express();
 
 app.use(logger('dev'));
@@ -17,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/scanner', scanner);
-
+app.use('/documents', documents);
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

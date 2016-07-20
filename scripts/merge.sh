@@ -1,7 +1,8 @@
 #!/bin/bash
 
 args=("$@")
-WKDIR=${args[0]}
+WKDIR=$1
+ARGUNPAPER=$2
 TARGETDIR="/srv/scanner"
 echo "Working in Folder $WKDIR"
 
@@ -10,7 +11,11 @@ do
 echo "Processing $f file..";
 FNAME=$(basename "$f")
 echo $FNAME
-unpaper $f "$WKDIR/unpaper$FNAME"
+if [ $ARGUNPAPER == "true" ]; then
+  unpaper $f "$WKDIR/unpaper$FNAME"
+else
+  cp $f "$WKDIR/unpaper$FNAME"
+fi
 today=`date +%Y-%m-%d.%H_%M_%S`
 tesseract -l deu "$WKDIR/unpaper$FNAME" "$WKDIR/scan$FNAME" pdf
 done
