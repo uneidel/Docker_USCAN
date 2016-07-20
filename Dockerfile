@@ -2,8 +2,11 @@ FROM ubuntu:16.04
 MAINTAINER uneidel@octonion.de
 
 # in order to make cups work
-RUN apt-get update && apt-get install -y whois sane iscan tesseract-ocr tesseract-ocr-deu unpaper imagemagick gpm libxml2 nodejs npm sane-utils
-# Install app dependencies
+RUN apt-get update && apt-get install -y whois sane tesseract-ocr tesseract-ocr-deu unpaper imagemagick gpm libxml2 nodejs npm sane-utils
+# Install Epson dependencies
+ADD https://download2.ebz.epson.net/iscan/general/deb/x64/iscan-bundle-1.0.1.x64.deb.tar.gz /root/
+RUN tar zxvf iscan-bundle-1.0.1.x64.deb.tar.gz
+RUN /root/iscan-bundle-1.0.1.x64.deb/install.sh
 COPY app /var/www/
 RUN cd /var/www/; npm install --production
 COPY scripts/ /srv/scripts
