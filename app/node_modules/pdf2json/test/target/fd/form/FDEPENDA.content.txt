@@ -1,0 +1,9 @@
+Form 1040AAdditional Dependents Statement                                               2013
+Line 6cG Attach to return (after all IRS forms)Statement
+Name(s) shown on returnYour social security number
+Dependents:
+                          (1)                                                                            (2)                                       (3)                                               (4)
+ First name                   Last name                                Dependent's                  Dependent's                         b if qualifying
+social security                  relationship                             child for
+number                          to you                            child tax credit
+----------------Page (0) Break----------------

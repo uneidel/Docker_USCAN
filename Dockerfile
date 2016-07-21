@@ -1,8 +1,8 @@
 FROM ubuntu:16.04
 MAINTAINER uneidel@octonion.de
 
-# in order to make cups work
-RUN apt-get update && apt-get install -y whois sane tesseract-ocr tesseract-ocr-deu unpaper imagemagick gpm libxml2 nodejs npm sane-utils
+# Install Packages
+RUN apt-get update && apt-get install -y whois sane exactimage tesseract-ocr tesseract-ocr-deu unpaper imagemagick gpm libxml2 nodejs npm sane-utils
 # Install Epson dependencies
 ADD https://download2.ebz.epson.net/iscan/general/deb/x64/iscan-bundle-1.0.1.x64.deb.tar.gz /root/
 RuN cd /root/
@@ -11,6 +11,8 @@ RUN /root/iscan-bundle-1.0.1.x64.deb/install.sh
 COPY app /var/www/
 RUN cd /var/www/; npm install --production
 COPY scripts/ /srv/scripts
+# execute Flag
+RUN chmod +x /srv/scripts
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.17.1.2/s6-overlay-amd64.tar.gz /tmp/s6-overlay.tar.gz
 RUN tar xvfz /tmp/s6-overlay.tar.gz -C /

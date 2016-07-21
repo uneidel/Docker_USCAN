@@ -17,15 +17,32 @@ router.get('/', function(req, res) {
         	});
           */
 
-router.get('/scan', function(req, res) {
+router.get('/scanpdf', function(req, res) {
   console.log("Unpaper:"  + req.query.unpaper);
   console.log("Merge:" + req.query.merge);
-  var command = config.scanscript.Path + " " + req.query.merge + " " + req.query.unpaper;
+  var command = config.PDF.ScriptPath + " " + req.query.merge + " " + req.query.unpaper;
   var json_data = {"name": config.RestApiName,"Version":config.Version, "unpaper": req.query.unpaper, "merge": req.query.merge};
-  exec(config.scanscript.Path,function(err,stdout,stderr){
+  exec(command,{encoding: 'binary', maxBuffer: 50000*1024},function(err,stdout,stderr){
+      console.log(err,stdout,stderr);
+  }).on('close', function() {
+      done();
+});
+  res.json(json_data);
+});
+router.get('/scanpic', function(req, res) {
+  var resolution = config.PIC.Resolution;
+  var format = config.PIC.DefaultFormat;
+  if (!req.query.resolution)
+    resolution=req.query.resolution;
+  if (!req.query.format)
+    format=req.query.resolution;
+  console.log("Resolution:"  + resolution);
+  console.log("format": + format)
+  var command = config.PIC.ScriptPath + " " + resolution + " " + format;
+  var json_data = {"name": config.RestApiName,"Version":config.Version};
+  exec(command,{encoding: 'binary', maxBuffer: 50000*1024}, function(err,stdout,stderr){
       console.log(err,stdout,stderr);
   });
   res.json(json_data);
 });
-
 module.exports = router;
