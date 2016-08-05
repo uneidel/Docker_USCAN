@@ -3,22 +3,17 @@
 ## Components
 based on ubuntu:16.04    
 S6-init     
-Samsung Unified Driver            
+EPSON driver            
 scanimage         
 tesseract         
 imagemagick        
 unpaper        
 
+REST API
 
-boxhandler (this little sh script uses a usb mouse to start scanning of a document)        
-(left button each Document -> PDF)     
-(right button all Documents -> one PDF- merge)     
-(Middle Button -> currently no function)      
 
 ## Build this image:
 see Bash Script build.sh
 
 ## RUN this Image:
-see Bash script run.sh
-
-
+ docker run -d -p 3000:3000 --name docker_uscan  --privileged -v /share/CE_CACHEDEV2_DATA/Unterlagen/Scanner/:/srv/scanner -v /dev/bus/usb:/dev/bus/usb -e SCANTARGET='/srv/scanner' uneidel/docker_uscan:latestdocker run -d -p 3000:3000 --name docker_uscan  --privileged -v /share/CE_CACHEDEV2_DATA
