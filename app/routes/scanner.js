@@ -36,8 +36,9 @@ router.get('/scanpic', function(req, res) {
     resolution=req.query.resolution;
   if (!req.query.format)
     format=req.query.resolution;
+
   console.log("Resolution:"  + resolution);
-  console.log("format": + format)
+  
   var command = config.PIC.ScriptPath + " " + resolution + " " + format;
   var json_data = {"name": config.RestApiName,"Version":config.Version};
   exec(command,{encoding: 'binary', maxBuffer: 50000*1024}, function(err,stdout,stderr){

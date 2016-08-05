@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER uneidel@octonion.de
 
 # Install Packages
-RUN apt-get update && apt-get install -y whois sane exactimage tesseract-ocr tesseract-ocr-deu unpaper imagemagick gpm libxml2 nodejs npm sane-utils
+RUN apt-get update && apt-get install -y whois sane exactimage exiftool  bc pdftk tesseract-ocr tesseract-ocr-deu unpaper imagemagick gpm libxml2 nodejs npm sane-utils
 # Install Epson dependencies
 ADD https://download2.ebz.epson.net/iscan/general/deb/x64/iscan-bundle-1.0.1.x64.deb.tar.gz /root/
 RuN cd /root/
