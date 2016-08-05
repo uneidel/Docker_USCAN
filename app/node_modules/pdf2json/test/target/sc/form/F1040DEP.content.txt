@@ -1,7 +1,0 @@
-SC1040Additional Dependents Statement                                               2013
- Attach to your returnStatement
-Name(s) shown on returnYour social security number
- Dependents:
-First name                                   Last name                                   Social security          Relationship             Date of birth
-number                                                 (MM/DD/YYYY)
-----------------Page (0) Break----------------
