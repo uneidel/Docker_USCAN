@@ -3,7 +3,7 @@
 args=("$@")
 WKDIR=$1
 ARGUP=$2
-TARGETDIR=$SCANTARGET
+TARGETDIR="/srv/scanner"
 echo "Working in Folder $WKDIR"
 counter=1
 for f in $WKDIR/*.pnm
