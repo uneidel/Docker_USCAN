@@ -8,7 +8,8 @@ ADD https://download2.ebz.epson.net/iscan/general/deb/x64/iscan-bundle-1.0.1.x64
 RuN cd /root/
 RUN tar zxvf /root/iscan-bundle-1.0.1.x64.deb.tar.gz -C /root/
 RUN /root/iscan-bundle-1.0.1.x64.deb/install.sh
-COPY app /var/www/ && RUN cd /var/www/; npm install --production
+COPY app /var/www/
+RUN cd /var/www/; npm install
 COPY scripts/ /srv/scripts
 # execute Flag
 RUN chmod +x /srv/scripts
