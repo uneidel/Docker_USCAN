@@ -5,8 +5,7 @@ var exec = require('child_process').exec;
 var fs   = require('fs');
 var Q = require('q');
 var util = require( "util" );
-var fs = require('fs');
-var PDFParser = require("pdf2json/PDFParser");
+
 
 router.get('/', function(req, res) {
   console.log(config.Documents.Path);
@@ -46,7 +45,8 @@ function GetFiles(path){
 
 function ParseTextLayer(path){
   var defer = Q.defer();
-
+  var fs = require('fs');
+  var PDFParser = require("pdf2json/PDFParser");
     var jsonData = null;
     var pdfParser = new PDFParser();
     console.log(path);
