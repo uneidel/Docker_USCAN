@@ -48,7 +48,7 @@ function ParseTextLayer(path){
   var defer = Q.defer();
 
     var jsonData = null;
-    let pdfParser = new PDFParser();
+    var pdfParser = new PDFParser();
     console.log(path);
     pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError) );
     pdfParser.on("pdfParser_dataReady", pdfData => {
