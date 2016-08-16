@@ -1,3 +1,4 @@
+
 var express = require('express');
 var router = express.Router();
 var config = require('../config');
@@ -5,6 +6,7 @@ var exec = require('child_process').exec;
 var fs   = require('fs');
 var Q = require('q');
 var util = require( "util" );
+var path  = require('path');
 
 
 router.get('/', function(req, res) {
@@ -20,7 +22,7 @@ function GetFilesWithAttributes(path){
   var defer = Q.defer();
   var fa = [];
   fs.readdir(path, function(err, items) {
-
+    items = items.filter(function(file) { return file.substr(-4) === '.pdf'; })
     for (var i=0; i<items.length; i++) {
         var fObj = {};
         var file = path + '/' + items[i];
@@ -61,6 +63,36 @@ function ParseTextLayer(path){
     pdfParser.loadPDF(path);
     return defer.promise;
 }
+function ParseTextLayer(path){
+
+
+        var defer = Q.defer();
+        
+        var inspect = require('eyespect').inspector({maxLength:20000});
+        var pdf_extract = require('pdf-extract');
+        var options = {
+                type: 'text'  // extract the actual text in the pdf file
+        }
+        console.log("Path: " +path);
+        var processor = pdf_extract(path, options, function(err) {
+                if (err) {
+                        defer.resolve(err);
+                }
+        });
+        processor.on('complete', function(data) {
+                inspect(data.text_pages, 'extracted text pages');
+                defer.resolve(data.text_pages);
+        });
+        processor.on('error', function(err) {
+                inspect(err, 'error while extracting pages');
+                defer.resolve(err);
+        });
+
+        return defer.promise;
+
+}
+
+
 function GetJustText(data){
     var array=[];
     var gersw = ["dass","der","zum","ihrer","einen","herr","im", "sich", "die","wir","zu","von","dem","wo","für","und","durch","Ihren","nach"];
@@ -99,7 +131,7 @@ function GetJustText(data){
 router.get('/:fileName/details', function(req, res) {
   var filename = req.params.fileName;
 
-  var fullName = config.Documents.Path + "\\" + filename;
+  var fullName = path.join(config.Documents.Path ,filename);
   ParseTextLayer(fullName).done(function(data){
     console.log(req.query);
 
@@ -115,31 +147,45 @@ router.get('/:fileName/details', function(req, res) {
 });
 router.get('/:fileName/file', function(req, res) {
   var filename = req.params.fileName;
-  var fullName = config.Documents.Path + "\\" + filename;
+  var fullName = path.join(config.Documents.Path,filename);
+  console.log(fullName);
   res.download(fullName, filename, function(err){
     console.log("error has occurred: " +  err);
   });
 
 });
-
+var mkdirSync = function (path) {
+  try {
+    fs.mkdirSync(path);
+  } catch(e) {
+    if ( e.code != 'EEXIST' ) throw e;
+  }
+}
 router.post('/:fileName', function(req, res){
   var filename = req.params.fileName;
-  var fullName = config.Documents.Path + "\\" + filename;
+  var fullName = path.join(config.Documents.Path,filename);
 
   var keywords="";
+  var moveToKeyWordFolder = true;
   if (req.body.keywords)
    keywords=req.body.keywords;
 
+   if (req.body.moveToKeyWordFolder)
+    moveToKeyWordFolder = req.body.moveToKeyWordFolder;
+
    var author=config.DefaultAuthor;
 
-  var command = util.format("exiftool -Keywords='%s' -Author='%s' -Title='%s' %s ", keywords, author, filename, fullName);
+  var command = util.format("exiftool -overwrite_original -Keywords='%s' -Author='%s' -Title='%s' %s ", keywords, author, filename, fullName);
   console.log(command);
   exec(command,{encoding: 'binary', maxBuffer: 50000*1024},function(err,stdout,stderr){
       console.log(err,stdout,stderr);
    }).on('close', function() {
-      done();
+      console.log("metadata written");
     });
-
+   mkdirSync( path.join(config.Documents.Path, keywords) );
+   var targetFile = path.join(config.Documents.Path, keywords, filename);
+   fs.renameSync(fullName, targetFile);
+   return res.json("done");
 });
 
 module.exports = router;
