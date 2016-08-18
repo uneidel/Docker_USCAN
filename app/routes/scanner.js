@@ -9,13 +9,7 @@ router.get('/', function(req, res) {
   res.json(json_data);
 });
 
-        	// start to scan the image
-        	/*exec(command, {encoding: 'binary', maxBuffer: 50000*1024}, function(error, stdout) {
-             		callback(stdout);
-          	}).on('close', function() {
-                done();
-        	});
-          */
+
 
 router.get('/scanpdf', function(req, res) {
   console.log("Unpaper:"  + req.query.unpaper);
@@ -25,7 +19,7 @@ router.get('/scanpdf', function(req, res) {
   exec(command,{encoding: 'binary', maxBuffer: 50000*1024},function(err,stdout,stderr){
       console.log(err,stdout,stderr);
   }).on('close', function() {
-      done();
+      
 });
   res.json(json_data);
 });
@@ -38,7 +32,7 @@ router.get('/scanpic', function(req, res) {
     format=req.query.resolution;
 
   console.log("Resolution:"  + resolution);
-  
+
   var command = config.PIC.ScriptPath + " " + resolution + " " + format;
   var json_data = {"name": config.RestApiName,"Version":config.Version};
   exec(command,{encoding: 'binary', maxBuffer: 50000*1024}, function(err,stdout,stderr){

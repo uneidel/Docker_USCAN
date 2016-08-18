@@ -12,7 +12,7 @@ COPY app /var/www/
 RUN cd /var/www/; npm install
 COPY scripts/ /srv/scripts
 # execute Flag
-RUN chmod +x /srv/scripts
+RUN chmod +x /srv/scripts/*
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v1.17.1.2/s6-overlay-amd64.tar.gz /tmp/s6-overlay.tar.gz
 RUN tar xvfz /tmp/s6-overlay.tar.gz -C /
