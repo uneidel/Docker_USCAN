@@ -29,7 +29,7 @@ router.get('/scanpic', function(req, res) {
   if (!req.query.resolution)
     resolution=req.query.resolution;
   if (!req.query.format)
-    format=req.query.resolution;
+    format=req.query.format;
 
   console.log("Resolution:"  + resolution);
 
