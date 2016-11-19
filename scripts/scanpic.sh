@@ -1,6 +1,7 @@
 #!/bin/bash
 resolution=300
 format=jpg
+SCANTARGET=/srv/scanner
 if [ ! -z "$1" ]; then
   resolution=$1
 fi
