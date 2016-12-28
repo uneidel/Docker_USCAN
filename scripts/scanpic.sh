@@ -20,7 +20,7 @@ today=`date +%Y-%m-%d.%H_%M_%S`
 OUTPUTFILE=$SCANTARGET$today.jpg
 echo $OUTPUTFILE
 if [ "$scantype" == "adf" ];then
-  scanimage --resolution $resolution -x 215 -y 280 --format=tiff | convert tiff:- $OUTPUTFILE
+  scanimage --resolution $resolution --source="Automatic Document Feeder" -x 215 -y 280 --format=tiff | convert tiff:- $OUTPUTFILE
 else
   scanimage --resolution $resolution -x 215 -y 280 --format=tiff | convert pdf:- $OUTPUTFILE
 fi
