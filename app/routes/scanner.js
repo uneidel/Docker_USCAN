@@ -19,21 +19,27 @@ router.get('/scanpdf', function(req, res) {
   exec(command,{encoding: 'binary', maxBuffer: 50000*1024},function(err,stdout,stderr){
       console.log(err,stdout,stderr);
   }).on('close', function() {
-      
+
 });
   res.json(json_data);
 });
 router.get('/scanpic', function(req, res) {
   var resolution = config.PIC.Resolution;
   var format = config.PIC.DefaultFormat;
+  var scantype = config.PIC.ScanType; // adf - flatbed
+
   if (!req.query.resolution)
     resolution=req.query.resolution;
+
   if (!req.query.format)
     format=req.query.format;
 
+  if(!req.query.scantype)
+    scantype = req.query.scantype;
+
   console.log("Resolution:"  + resolution);
 
-  var command = config.PIC.ScriptPath + " " + resolution + " " + format;
+  var command = config.PIC.ScriptPath + " " + resolution + " " + format + " " + scantype;
   var json_data = {"name": config.RestApiName,"Version":config.Version};
   exec(command,{encoding: 'binary', maxBuffer: 50000*1024}, function(err,stdout,stderr){
       console.log(err,stdout,stderr);

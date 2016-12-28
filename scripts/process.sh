@@ -11,13 +11,13 @@ do
 echo "Processing $f file..";
 FNAME=$(basename "$f")
 if [ "$ARGUP" == "true" ]; then
-unpaper $f "$WKDIR/unpaper$FNAME"
+unpaper --no-grayfilter $f "$WKDIR/unpaper$FNAME"
 else
   cp $f "$WKDIR/unpaper$FNAME"
 fi
 # Convert to 8bit
 convert -normalize -density 300  "$WKDIR/unpaper$FNAME" "$WKDIR/norm$FNAME"
-/srv/scripts/textcleaner.sh -e none -f 10 -o 5 "$WKDIR/norm$FNAME" "$WKDIR/tc$FNAME"
+#/srv/scripts/textcleaner.sh -e none -f 10 -o 5 "$WKDIR/norm$FNAME" "$WKDIR/tc$FNAME"
 tesseract -l deu -psm 1 "$WKDIR/tc$FNAME" "$WKDIR/scan$counter" pdf
 today=`date +%Y-%m-%d.%H_%M_%S`
 
