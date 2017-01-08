@@ -34,6 +34,6 @@ fi
 counter=$((counter+1))
 done
 
-files=$(ls -v "$WKDIR"scanready*)
+files=$(ls -v "$WKDIR/"scanready*)
 pdftk $files output "$TARGETDIR/scan$today.pdf"
 rm -R $WKDIR
